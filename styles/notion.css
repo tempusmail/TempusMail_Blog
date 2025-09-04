@@ -25,6 +25,38 @@
   --notion-max-width: 900px;
 }
 
+/* Hide hero/title/header elements on home page */
+.index-page .notion-page-cover-wrapper,
+.index-page .notion-page-icon-hero,
+.index-page .notion-page-header,
+.index-page .notion-title,
+.index-page .notion-hr {
+  display: none !important;
+}
+
+/* Hide banner/hero section below navbar */
+.index-page .notion-page-cover,
+.index-page .notion-page-cover-wrapper,
+.index-page .notion-hero,
+.index-page .notion-banner,
+.index-page .notion-callout,
+.index-page .notion-block[data-block-id]:first-child,
+.index-page .notion-block:first-child {
+  display: none !important;
+}
+
+/* Hide intro paragraph under title on home page */
+.index-page .notion-text {
+  display: none !important;
+}
+
+/* Hide any gradient background elements on index page */
+.index-page .notion-block:first-child,
+.index-page .notion-block:first-child *,
+.index-page [style*="gradient"]:first-child {
+  display: none !important;
+}
+
 .notion-text {
   padding: 0.5em 2px;
 }

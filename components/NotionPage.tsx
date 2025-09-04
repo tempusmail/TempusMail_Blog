@@ -23,7 +23,6 @@ import { searchNotion } from '@/lib/search-notion'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
 import { Footer } from './Footer'
-import { GitHubShareButton } from './GitHubShareButton'
 import { Loading } from './Loading'
 import { NotionPageHeader } from './NotionPageHeader'
 import { Page404 } from './Page404'
@@ -183,6 +182,34 @@ const propertyTextValue = (
   return defaultFn()
 }
 
+// Custom component to filter out the first block (gradient banner) on index page
+const CustomBlock = ({ block, level, blockId, ...props }: any) => {
+  const { recordMap } = useNotionContext()
+  const router = useRouter()
+  
+  // Check if this is the index page and if this is the first block
+  const isIndexPage = router.asPath === '/' || router.asPath === ''
+  const blockKeys = Object.keys(recordMap?.block || {})
+  const isFirstBlock = blockId === blockKeys[0]
+  
+  // Debug logging to see what blocks are being rendered
+  if (isIndexPage && isFirstBlock) {
+    console.log('First block on index page:', { block, blockId, blockType: block?.type })
+  }
+  
+  // Hide the first block on index page (the gradient banner)
+  // Also hide callout blocks and any blocks with gradient backgrounds
+  if (isIndexPage && (isFirstBlock || block?.type === 'callout' || block?.type === 'divider')) {
+    console.log('Hiding block:', { blockId, blockType: block?.type, isFirstBlock })
+    return null
+  }
+  
+  // Use default block rendering for all other cases
+  const { components } = useNotionContext()
+  const BlockComponent = components.block || 'div'
+  return <BlockComponent block={block} level={level} blockId={blockId} {...props} />
+}
+
 export function NotionPage({
   site,
   recordMap,
@@ -205,7 +232,8 @@ export function NotionPage({
       Header: NotionPageHeader,
       propertyLastEditedTimeValue,
       propertyTextValue,
-      propertyDateValue
+      propertyDateValue,
+      block: CustomBlock
     }),
     []
   )
@@ -328,7 +356,7 @@ export function NotionPage({
         footer={footer}
       />
 
-      <GitHubShareButton />
+      {/* GitHub ribbon removed */}
     </>
   )
 }

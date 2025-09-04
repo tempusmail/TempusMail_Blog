@@ -62,13 +62,11 @@
   padding: 0.5em;
 }
 
-.settings,
-.social {
+.settings {
   user-select: none;
 }
 
-.settings a,
-.social a {
+.settings a {
   cursor: pointer;
   font-size: 2em;
   display: inline-flex;
@@ -77,46 +75,16 @@
   transition: color 250ms ease-out;
 }
 
-.settings a:last-of-type,
-.social a:last-of-type {
+.settings a:last-of-type {
   margin-right: 0;
 }
 
-.settings a:hover,
-.social a:hover {
+.settings a:hover {
   transition: color 50ms ease-out;
 }
 
 .toggleDarkMode:hover {
   color: #2795e9;
-}
-
-.twitter:hover {
-  color: #2795e9;
-}
-
-.mastodon:hover {
-  color: #5a4be1;
-}
-
-.zhihu:hover {
-  color: #0066ff;
-}
-
-.github:hover {
-  color: #c9510c;
-}
-
-.youtube:hover {
-  color: #ff0000;
-}
-
-.linkedin:hover {
-  color: #0077b5;
-}
-
-.newsletter:hover {
-  color: #777777;
 }
 
 .comments {
@@ -137,11 +105,8 @@
   .footer .settings {
     order: 1;
   }
-  .footer .social {
-    order: 2;
-  }
   .footer .copyright {
-    order: 3;
+    order: 2;
   }
 }
 
@@ -218,4 +183,63 @@
 
 .hidden {
   visibility: hidden;
+}
+
+/* TempusMail-style navbar */
+.tempusHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 16px;
+  background: #e9f3ff;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.tempusHeaderInner {
+  width: 100%;
+  max-width: 900px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 auto;
+  padding: 0 2vw;
+}
+
+.logoWrap {
+  display: inline-flex;
+  align-items: center;
+}
+
+.logo {
+  height: 28px;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+}
+
+.brandText {
+  margin-left: 8px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+/* Align brand to the left */
+.tempusHeaderInner .brand {
+  margin-left: 0;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.premiumButton {
+  background: #2b7fff;
+  color: #fff !important;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 600;
 }

@@ -3,9 +3,9 @@ import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
 import cs from 'classnames'
 import * as React from 'react'
-import { Breadcrumbs, Header, Search, useNotionContext } from 'react-notion-x'
+import { Search, useNotionContext } from 'react-notion-x'
 
-import { isSearchEnabled, navigationLinks, navigationStyle } from '@/lib/config'
+import { isSearchEnabled } from '@/lib/config'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
 import styles from './styles.module.css'
@@ -37,51 +37,29 @@ export function NotionPageHeader({
 }: {
   block: types.CollectionViewPageBlock | types.PageBlock
 }) {
-  const { components, mapPageUrl } = useNotionContext()
+  const { components } = useNotionContext()
 
-  if (navigationStyle === 'default') {
-    return <Header block={block} />
-  }
+  // Force custom TempusMail-style navbar regardless of navigationStyle
 
   return (
     <header className='notion-header'>
-      <div className='notion-nav-header'>
-        <Breadcrumbs block={block} rootOnly={true} />
+      <div className={styles.tempusHeader}>
+        <div className={styles.tempusHeaderInner}>
+          <div className={styles.brand}>
+            <components.Link href='/' className={styles.logoWrap}>
+              <img src='/TempusMail.svg' alt='TempusMail' className={styles.logo} />
+              <span className={styles.brandText}>TEMPUSMAIL</span>
+            </components.Link>
+          </div>
 
-        <div className='notion-nav-header-rhs breadcrumbs'>
-          {navigationLinks
-            ?.map((link, index) => {
-              if (!link?.pageId && !link?.url) {
-                return null
-              }
+          <div className={styles.headerActions}>
+            {isSearchEnabled && <Search block={block} title={null} />}
+            <ToggleThemeButton />
 
-              if (link.pageId) {
-                return (
-                  <components.PageLink
-                    href={mapPageUrl(link.pageId)}
-                    key={index}
-                    className={cs(styles.navLink, 'breadcrumb', 'button')}
-                  >
-                    {link.title}
-                  </components.PageLink>
-                )
-              } else {
-                return (
-                  <components.Link
-                    href={link.url}
-                    key={index}
-                    className={cs(styles.navLink, 'breadcrumb', 'button')}
-                  >
-                    {link.title}
-                  </components.Link>
-                )
-              }
-            })
-            .filter(Boolean)}
-
-          <ToggleThemeButton />
-
-          {isSearchEnabled && <Search block={block} title={null} />}
+            <components.Link href='/premium' className={styles.premiumButton}>
+              Premium
+            </components.Link>
+          </div>
         </div>
       </div>
     </header>
