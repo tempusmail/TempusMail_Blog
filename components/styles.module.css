@@ -185,6 +185,8 @@
   visibility: hidden;
 }
 
+
+
 /* TempusMail-style navbar */
 .tempusHeader {
   display: flex;
@@ -193,6 +195,11 @@
   padding: 10px 16px;
   background: #e9f3ff;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+/* Dark mode override */
+:global(body.dark-mode) .tempusHeader {
+  background: #1e1e1e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .tempusHeaderInner {
@@ -204,6 +211,9 @@
   margin: 0 auto;
   padding: 0 2vw;
 }
+
+
+
 
 .logoWrap {
   display: inline-flex;
@@ -243,3 +253,6 @@
   border-radius: 8px;
   font-weight: 600;
 }
+
+
+
