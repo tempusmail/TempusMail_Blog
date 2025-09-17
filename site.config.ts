@@ -9,17 +9,23 @@ export default siteConfig({
   rootNotionSpaceId: null,
 
   // basic site info (required)
-  name: 'Next.js Notion Starter Kit',
-  domain: 'nextjs-notion-starter-kit.transitivebullsh.it',
-  author: 'Travis Fischer',
+  name: 'TempusMail Blog',
+  domain: 'blog.tempusmail.com',
+  author: 'TempusMail',
 
   // open graph metadata (optional)
-  description: 'Example Next.js Notion Starter Kit Site',
+  description: 'Official Blog website for TempusMail.com',
+
+  isCommentsEnabled: true,
+  utterancesRepo: 'QuantTraderTools/QuantTraderToolsBlog',
+  utterancesLabel: 'comment',
+  utterancesTheme: 'github-light',
 
   // social usernames (optional)
-  twitter: 'transitive_bs',
-  github: 'transitive-bullshit',
-  linkedin: 'fisch2',
+  twitter: 'tempusmail',
+  github: 'diliprk',
+  linkedin: 'sridiliprk',
+
   // mastodon: '#', // optional mastodon profile URL, provides link verification
   // newsletter: '#', // optional newsletter URL
   // youtube: '#', // optional youtube channel name or `channel/UCGbXXXXXXXXXXXXXXXXXXXXXX`

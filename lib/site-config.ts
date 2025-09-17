@@ -33,6 +33,12 @@ export interface SiteConfig {
 
   navigationStyle?: types.NavigationStyle
   navigationLinks?: Array<NavigationLink>
+
+  // add your new comment-related fields here
+  isCommentsEnabled?: boolean
+  utterancesRepo?: string
+  utterancesLabel?: string
+  utterancesTheme?: string
 }
 
 export interface NavigationLink {
