@@ -30,7 +30,7 @@ export function FooterImpl() {
   return (
     <footer className={styles.footer}>
       <div className={styles.copyright}>
-        Copyright {currentYear} {config.author}
+        Copyright 2025 Tempusmail.com
       </div>
 
       <div className={styles.settings}>
