@@ -10,8 +10,7 @@ import BodyClassName from 'react-body-classname'
 import {
   type NotionComponents,
   NotionRenderer,
-  useNotionContext
-} from 'react-notion-x'
+  useNotionContext} from 'react-notion-x'
 import { EmbeddedTweet, TweetNotFound, TweetSkeleton } from 'react-tweet'
 import { useSearchParam } from 'react-use'
 
@@ -105,6 +104,10 @@ const Code = dynamic(() =>
   })
 )
 
+interface MyComponents extends NotionComponents {
+  Block?: (props: any) => JSX.Element
+}
+
 const Collection = dynamic(() =>
   import('react-notion-x/build/third-party/collection').then(
     (m) => m.Collection
@@ -183,32 +186,72 @@ const propertyTextValue = (
 }
 
 // Custom component to filter out the first block (gradient banner) on index page
-const CustomBlock = ({ block, level, blockId, ...props }: any) => {
-  const { recordMap } = useNotionContext()
+// const CustomBlock = ({ block, level, blockId, ...props }: any) => {
+//   const { recordMap } = useNotionContext()
+//   const router = useRouter()
+
+//   // Check if this is the index page and if this is the first block
+//   const isIndexPage = router.asPath === '/' || router.asPath === ''
+//   const blockKeys = Object.keys(recordMap?.block || {})
+//   const isFirstBlock = blockId === blockKeys[0]
+
+//   // Debug logging to see what blocks are being rendered
+//   if (isIndexPage && isFirstBlock) {
+//     console.log('First block on index page:', {
+//       block,
+//       blockId,
+//       blockType: block?.type
+//     })
+//   }
+
+//   // Hide the first block on index page (the gradient banner)
+//   // Also hide callout blocks and any blocks with gradient backgrounds
+//   if (
+//     isIndexPage &&
+//     (isFirstBlock || block?.type === 'callout' || block?.type === 'divider')
+//   ) {
+//     console.log('Hiding block:', {
+//       blockId,
+//       blockType: block?.type,
+//       isFirstBlock
+//     })
+//     return null
+//   }
+
+//   // Use default block rendering for all other cases
+//   const { components } = useNotionContext()
+//   const BlockComponent = components.block || 'div'
+//   return (
+//     <BlockComponent block={block} level={level} blockId={blockId} {...props} />
+//   )
+// }
+
+
+
+export function CustomBlock({ block, level, blockId, ...props }: any) {
+  const { recordMap, components } = useNotionContext()
   const router = useRouter()
-  
-  // Check if this is the index page and if this is the first block
+
   const isIndexPage = router.asPath === '/' || router.asPath === ''
   const blockKeys = Object.keys(recordMap?.block || {})
   const isFirstBlock = blockId === blockKeys[0]
-  
-  // Debug logging to see what blocks are being rendered
-  if (isIndexPage && isFirstBlock) {
-    console.log('First block on index page:', { block, blockId, blockType: block?.type })
-  }
-  
-  // Hide the first block on index page (the gradient banner)
-  // Also hide callout blocks and any blocks with gradient backgrounds
-  if (isIndexPage && (isFirstBlock || block?.type === 'callout' || block?.type === 'divider')) {
-    console.log('Hiding block:', { blockId, blockType: block?.type, isFirstBlock })
+
+  if (
+    isIndexPage &&
+    (isFirstBlock || block?.type === 'callout' || block?.type === 'divider')
+  ) {
     return null
   }
-  
-  // Use default block rendering for all other cases
-  const { components } = useNotionContext()
-  const BlockComponent = components.block || 'div'
-  return <BlockComponent block={block} level={level} blockId={blockId} {...props} />
+
+  // Now TypeScript knows about Block
+  const DefaultBlock =
+    (components as MyComponents)?.Block ?? 'div'
+
+  return (
+    <DefaultBlock block={block} level={level} blockId={blockId} {...props} />
+  )
 }
+
 
 export function NotionPage({
   site,
@@ -360,3 +403,4 @@ export function NotionPage({
     </>
   )
 }
+
