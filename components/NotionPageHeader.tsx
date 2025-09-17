@@ -56,7 +56,7 @@ export function NotionPageHeader({
             {isSearchEnabled && <Search block={block} title={null} />}
             <ToggleThemeButton />
 
-            <components.Link href='https://tempusmail.com/premium' className={styles.premiumButton}>
+            <components.Link href="https://tempusmail.com/premium" className={styles.premiumButton}>
               Premium
             </components.Link>
           </div>
