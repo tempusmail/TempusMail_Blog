@@ -10,7 +10,8 @@ import BodyClassName from 'react-body-classname'
 import {
   type NotionComponents,
   NotionRenderer,
-  useNotionContext} from 'react-notion-x'
+  useNotionContext
+} from 'react-notion-x'
 import { EmbeddedTweet, TweetNotFound, TweetSkeleton } from 'react-tweet'
 import { useSearchParam } from 'react-use'
 
@@ -103,10 +104,6 @@ const Code = dynamic(() =>
     return m.Code
   })
 )
-
-interface MyComponents extends NotionComponents {
-  Block?: (props: any) => JSX.Element
-}
 
 const Collection = dynamic(() =>
   import('react-notion-x/build/third-party/collection').then(
@@ -226,8 +223,6 @@ const propertyTextValue = (
 //   )
 // }
 
-
-
 export function CustomBlock({ block, level, blockId, ...props }: any) {
   const { recordMap, components } = useNotionContext()
   const router = useRouter()
@@ -244,14 +239,12 @@ export function CustomBlock({ block, level, blockId, ...props }: any) {
   }
 
   // Now TypeScript knows about Block
-  const DefaultBlock =
-    (components as MyComponents)?.Block ?? 'div'
+  const DefaultBlock = (components as any)?.Block ?? 'div'
 
   return (
     <DefaultBlock block={block} level={level} blockId={blockId} {...props} />
   )
 }
-
 
 export function NotionPage({
   site,
@@ -403,4 +396,3 @@ export function NotionPage({
     </>
   )
 }
-
