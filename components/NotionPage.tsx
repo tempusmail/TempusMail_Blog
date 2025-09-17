@@ -22,6 +22,7 @@ import { getCanonicalPageUrl, mapPageUrl } from '@/lib/map-page-url'
 import { searchNotion } from '@/lib/search-notion'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
+import { Comments } from './Comments'
 import { Footer } from './Footer'
 import { Loading } from './Loading'
 import { NotionPageHeader } from './NotionPageHeader'
@@ -402,6 +403,21 @@ export function NotionPage({
       />
 
       {/* GitHub ribbon removed */}
+
+
+
+
+       {/* Comments: show under blog posts if enabled */}
+      {isBlogPost && config.isCommentsEnabled && config.utterancesRepo && (
+        <div className={styles.comments}>
+          <Comments
+            repo={config.utterancesRepo}
+            issueTerm='pathname'
+            label={config.utterancesLabel}
+            theme={isDarkMode ? 'github-dark' : config.utterancesTheme}
+          />
+        </div>
+      )}
     </>
   )
 }

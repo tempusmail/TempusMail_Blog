@@ -64,6 +64,26 @@ export const linkedin: string | undefined = getSiteConfig('linkedin')
 export const newsletter: string | undefined = getSiteConfig('newsletter')
 export const zhihu: string | undefined = getSiteConfig('zhihu')
 
+
+// comments (utterances)
+export const isCommentsEnabled: boolean = getSiteConfig(
+  'isCommentsEnabled',
+  false
+)
+export const utterancesRepo: string | undefined = getSiteConfig(
+  'utterancesRepo',
+  undefined
+)
+export const utterancesLabel: string | undefined = getSiteConfig(
+  'utterancesLabel',
+  undefined
+)
+export const utterancesTheme: string = getSiteConfig(
+  'utterancesTheme',
+  'github-light'
+)
+
+
 export const getMastodonHandle = (): string | undefined => {
   if (!mastodon) {
     return

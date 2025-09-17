@@ -35,10 +35,10 @@ export interface SiteConfig {
   navigationLinks?: Array<NavigationLink>
 
   // add your new comment-related fields here
+  utterancesRepo?: string // e.g. 'owner/repo'
+  utterancesLabel?: string // optional GitHub label for issues
+  utterancesTheme?: string // e.g. 'github-light' | 'github-dark'
   isCommentsEnabled?: boolean
-  utterancesRepo?: string
-  utterancesLabel?: string
-  utterancesTheme?: string
 }
 
 export interface NavigationLink {
