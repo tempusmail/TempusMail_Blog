@@ -105,6 +105,12 @@ const Code = dynamic(() =>
   })
 )
 
+declare module 'react-notion-x' {
+  interface NotionComponents {
+    block?: React.FC<any>
+  }
+}
+
 const Collection = dynamic(() =>
   import('react-notion-x/build/third-party/collection').then(
     (m) => m.Collection
@@ -223,6 +229,7 @@ const propertyTextValue = (
 //   )
 // }
 
+// ✅ Corrected CustomBlock
 export function CustomBlock({ block, level, blockId, ...props }: any) {
   const { recordMap, components } = useNotionContext()
   const router = useRouter()
@@ -238,13 +245,15 @@ export function CustomBlock({ block, level, blockId, ...props }: any) {
     return null
   }
 
-  // Now TypeScript knows about Block
-  const DefaultBlock = (components as any)?.Block ?? 'div'
+  // ✅ Use components.block (lowercase) instead of components.Block
+  const DefaultBlock =
+    (components?.block as React.FC<any>) ?? (({ children }) => <div>{children}</div>)
 
   return (
     <DefaultBlock block={block} level={level} blockId={blockId} {...props} />
   )
 }
+
 
 export function NotionPage({
   site,
