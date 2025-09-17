@@ -46,7 +46,7 @@ export function NotionPageHeader({
       <div className={styles.tempusHeader}>
         <div className={styles.tempusHeaderInner}>
           <div className={styles.brand}>
-            <components.Link href='/' className={styles.logoWrap}>
+            <components.Link href="https://tempusmail.com/" className={styles.logoWrap}>
               <img src='/TempusMail.svg' alt='TempusMail' className={styles.logo} />
               <span className={styles.brandText}>TEMPUSMAIL</span>
             </components.Link>
