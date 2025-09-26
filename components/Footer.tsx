@@ -55,7 +55,7 @@ export function FooterImpl() {
             onClick={onToggleDarkMode}
             title='Toggle dark mode'
           >
-            {isDarkMode ? <IoMoonSharp size={15}/> : <IoSunnyOutline />}
+            {isDarkMode ? <IoMoonSharp size={15}/> : <IoSunnyOutline size={15} />}
           </a>
         )}
       </div>
