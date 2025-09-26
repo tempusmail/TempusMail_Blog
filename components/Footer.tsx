@@ -1,4 +1,5 @@
 // Social media icon imports removed
+import { IoHome } from '@react-icons/all-files/io5/IoHome'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
 import * as React from 'react'
@@ -9,6 +10,7 @@ import { useDarkMode } from '@/lib/use-dark-mode'
 import styles from './styles.module.css'
 
 // TODO: merge the data and icons from PageSocial with the social links in Footer
+
 
 export function FooterImpl() {
   const [hasMounted, setHasMounted] = React.useState(false)
@@ -29,9 +31,20 @@ export function FooterImpl() {
 
   return (
     <footer className={styles.footer}>
+
+
+       <div>
+        <div className={styles.footerSection}>
+          <a href='/' className={styles.homeButton} title='Home'>
+            <IoHome />
+          </a>
+        </div>
+      </div>
       <div className={styles.copyright}>
         Copyright {currentYear} {config.author}
       </div>
+
+     
 
       <div className={styles.settings}>
         {hasMounted && (
@@ -42,7 +55,7 @@ export function FooterImpl() {
             onClick={onToggleDarkMode}
             title='Toggle dark mode'
           >
-            {isDarkMode ? <IoMoonSharp /> : <IoSunnyOutline />}
+            {isDarkMode ? <IoMoonSharp size={15}/> : <IoSunnyOutline />}
           </a>
         )}
       </div>

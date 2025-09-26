@@ -1,7 +1,9 @@
 import type * as types from 'notion-types'
+import { IoHome } from '@react-icons/all-files/io5/IoHome'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
 import cs from 'classnames'
+import Link from 'next/link'
 import * as React from 'react'
 import { Search, useNotionContext } from 'react-notion-x'
 
@@ -53,7 +55,12 @@ export function NotionPageHeader({
           </div>
 
           <div className={styles.headerActions}>
+            <Link href='/' className={cs('breadcrumb', 'button')} aria-label='Home' style={{ marginRight: '0.5rem' }}>
+            <IoHome />
+          </Link>
             {isSearchEnabled && <Search block={block} title={null} />}
+
+            
             <ToggleThemeButton />
 
             <components.Link href="https://tempusmail.com/premium" className={styles.premiumButton}>

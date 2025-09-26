@@ -411,10 +411,11 @@ export function NotionPage({
       {isBlogPost && config.isCommentsEnabled && config.utterancesRepo && (
         <div className={styles.comments}>
           <Comments
+            key={isDarkMode ? 'dark' : 'light'}
             repo={config.utterancesRepo}
             issueTerm='pathname'
             label={config.utterancesLabel}
-            theme={isDarkMode ? 'github-dark' : config.utterancesTheme}
+            theme={isDarkMode ? 'github-dark' : (config.utterancesTheme || 'github-light')}
           />
         </div>
       )}

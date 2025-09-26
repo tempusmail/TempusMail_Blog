@@ -47,14 +47,20 @@
 
 .footer {
   width: 100%;
-  max-width: 1100px;
-  margin: auto auto 0;
-  padding: 8px;
+  max-width: 720px; /* Match the notion content width */
+  margin: 0 auto; /* Remove all vertical margins */
+  padding: 0; /* Remove padding to align with comment box edges */
 
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: space-between; /* Space between left and right, center in middle */
   align-items: center;
+}
+
+.footerSection {
+  padding-left: 90; /* Remove padding for centered layout */
+  justify-content: center;
+  flex: 0 0 auto;
 }
 
 .copyright {
@@ -89,8 +95,60 @@
 
 .comments {
   width: 100%;
-  margin-top: 2em;
-  border-top: 1px solid var(--fg-color-0);
+  margin: 0;
+  margin-top: 0;
+  padding: 0 0 1rem 0; /* No top padding - separator line touches comments directly */
+  background-color: var(--bg-color);
+  border-top: none;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+  position: relative;
+}
+
+.comments::before {
+  content: '';
+  display: block;
+  width: 100%;
+  max-width: 720px; /* Match content width */
+  height: 1px;
+  background: #e5e7eb; /* Light mode separator line */
+  margin: 0 auto;
+}
+
+.commentsSeparator {
+  width: 100%;
+  max-width: 720px; /* Match the notion content width */
+  height: 1px;
+  background: var(--color-border);
+  margin: 0 auto 1rem auto;
+}
+
+.commentsInner {
+  width: 100%;
+  background-color: var(--bg-color);
+  margin: 0;
+  padding: 0;
+}
+
+/* Default: show light theme, hide dark theme */
+.commentsInner .utterances-light {
+  display: block;
+}
+
+.commentsInner .utterances-dark {
+  display: none;
+}
+
+/* Dark mode: hide light theme, show dark theme */
+:global(.dark-mode) .comments::before {
+  background: #6b7280; /* Dark mode separator line */
+}
+
+:global(.dark-mode) .commentsInner .utterances-light {
+  display: none !important;
+}
+
+:global(.dark-mode) .commentsInner .utterances-dark {
+  display: block !important;
 }
 
 @media only screen and (max-width: 566px) {

@@ -17,7 +17,7 @@ export default siteConfig({
   description: 'Official Blog website for TempusMail.com',
 
   isCommentsEnabled: true,
-  utterancesRepo: 'QuantTraderTools/QuantTraderToolsBlog',
+  utterancesRepo: 'tempusmail/TempusMail_Blog',
   utterancesLabel: 'comment',
   utterancesTheme: 'github-light',
 
