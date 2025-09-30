@@ -1,6 +1,8 @@
 import { IconContext } from '@react-icons/all-files'
 import Document, { Head, Html, Main, NextScript } from 'next/document'
 
+import { GA_TRACKING_ID } from '../lib/gtag'
+
 export default class MyDocument extends Document {
   override render() {
     return (
@@ -12,6 +14,31 @@ export default class MyDocument extends Document {
 
             {/* Optional fallback for older browsers */}
             <link rel='alternate icon' href='/favicon.ico' />
+
+{/* ✅ Google Analytics scripts */}
+          {GA_TRACKING_ID && (
+            <>
+              <script
+                async
+                src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+              />
+              <script
+                dangerouslySetInnerHTML={{
+                  __html: `
+                    window.dataLayer = window.dataLayer || [];
+                    function gtag(){dataLayer.push(arguments);}
+                    gtag('js', new Date());
+                    gtag('config', '${GA_TRACKING_ID}', {
+                      page_path: window.location.pathname,
+                      send_page_view: false,
+                      anonymize_ip: true,
+                      cookie_flags: 'SameSite=Strict;Secure'
+                    });
+                  `,
+                }}
+              />
+            </>
+          )}
           </Head>
 
           <body>

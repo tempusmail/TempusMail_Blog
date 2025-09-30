@@ -28,6 +28,8 @@ import {
   posthogId
 } from '@/lib/config'
 
+import * as gtag from '../lib/gtag'
+
 if (!isServer) {
   bootstrap()
 }
@@ -36,7 +38,10 @@ export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter()
 
   React.useEffect(() => {
-    function onRouteChangeComplete() {
+    function onRouteChangeComplete(url: string) {
+      // ✅ Google Analytics - track page views on route changes
+      gtag.pageview(url);
+      
       if (fathomId) {
         Fathom.trackPageview()
       }
@@ -45,6 +50,10 @@ export default function App({ Component, pageProps }: AppProps) {
         posthog.capture('$pageview')
       }
     }
+
+    // ✅ Initialize Google Analytics and track initial page load
+    gtag.initialize()
+    gtag.pageview(window.location.pathname + window.location.search)
 
     if (fathomId) {
       Fathom.load(fathomId, fathomConfig)

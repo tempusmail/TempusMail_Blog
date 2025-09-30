@@ -12,6 +12,7 @@ import {
   NotionRenderer,
   useNotionContext
 } from 'react-notion-x'
+import { Code as NotionCode } from "react-notion-x/build/third-party/code";
 import { EmbeddedTweet, TweetNotFound, TweetSkeleton } from 'react-tweet'
 import { useSearchParam } from 'react-use'
 
@@ -25,6 +26,7 @@ import { useDarkMode } from '@/lib/use-dark-mode'
 import { Comments } from './Comments'
 import { Footer } from './Footer'
 import { Loading } from './Loading'
+import { Mermaid } from "./Mermaid"; // the component we wrote earlier
 import { NotionPageHeader } from './NotionPageHeader'
 import { Page404 } from './Page404'
 import { PageAside } from './PageAside'
@@ -35,7 +37,7 @@ import styles from './styles.module.css'
 // dynamic imports for optional components
 // -----------------------------------------------------------------------------
 
-const Code = dynamic(() =>
+const Codes = dynamic(() =>
   import('react-notion-x/build/third-party/code').then(async (m) => {
     // add / remove any prism syntaxes here
     await Promise.allSettled([
@@ -106,11 +108,6 @@ const Code = dynamic(() =>
   })
 )
 
-declare module 'react-notion-x' {
-  interface NotionComponents {
-    block?: React.FC<any>
-  }
-}
 
 const Collection = dynamic(() =>
   import('react-notion-x/build/third-party/collection').then(
@@ -136,6 +133,13 @@ const Modal = dynamic(
     ssr: false
   }
 )
+
+// const Mermaid = dynamic(
+//   () =>
+//     import("react-notion-x/build/third-party/mermaid").then((m) => m.Mermaid),
+//   { ssr: false }
+// )
+
 
 function Tweet({ id }: { id: string }) {
   const { recordMap } = useNotionContext()
@@ -231,8 +235,8 @@ const propertyTextValue = (
 // }
 
 // ✅ Corrected CustomBlock
-export function CustomBlock({ block, level, blockId, ...props }: any) {
-  const { recordMap, components } = useNotionContext()
+export function CustomBlock({ block, level: _level, blockId, ...props }: any) {
+  const { recordMap } = useNotionContext()
   const router = useRouter()
 
   const isIndexPage = router.asPath === '/' || router.asPath === ''
@@ -246,15 +250,19 @@ export function CustomBlock({ block, level, blockId, ...props }: any) {
     return null
   }
 
-  // ✅ Use components.block (lowercase) instead of components.Block
-  const DefaultBlock =
-    (components?.block as React.FC<any>) ?? (({ children }) => <div>{children}</div>)
-
-  return (
-    <DefaultBlock block={block} level={level} blockId={blockId} {...props} />
-  )
+  // ✅ Return the children directly since we're filtering blocks, not replacing them
+  return <>{props.children}</>
 }
 
+function CustomCode({ block, ...props }: any) {
+  const language = block.properties?.language?.[0]?.[0];
+
+  if (language === "Mermaid" || language === "mermaid") {
+    return <Mermaid block={block} />;
+  }
+
+  return <NotionCode block={block} {...props} />;
+}
 
 export function NotionPage({
   site,
@@ -269,7 +277,8 @@ export function NotionPage({
     () => ({
       nextLegacyImage: Image,
       nextLink: Link,
-      Code,
+      Codes,
+      Code:CustomCode,
       Collection,
       Equation,
       Pdf,
@@ -279,7 +288,7 @@ export function NotionPage({
       propertyLastEditedTimeValue,
       propertyTextValue,
       propertyDateValue,
-      block: CustomBlock
+      block: CustomBlock,
     }),
     []
   )
@@ -403,9 +412,6 @@ export function NotionPage({
       />
 
       {/* GitHub ribbon removed */}
-
-
-
 
        {/* Comments: show under blog posts if enabled */}
       {isBlogPost && config.isCommentsEnabled && config.utterancesRepo && (
