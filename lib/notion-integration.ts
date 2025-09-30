@@ -5,7 +5,7 @@ import type * as types from './types'
 
 // Initialize the official Notion client with integration token
 const notion = new Client({
-  auth: process.env.NOTION_TOKEN,
+  auth: process.env.NOTION_API_KEY,
 })
 
 export async function searchWithIntegration(
