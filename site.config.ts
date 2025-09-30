@@ -44,6 +44,12 @@ export default siteConfig({
   // environment variables. see the readme for more info
   isRedisEnabled: false,
 
+  // whether or not to enable search functionality (optional)
+  isSearchEnabled: true,
+
+  // remove notion page IDs from URLs (clean URLs)
+  includeNotionIdInUrls: false,
+
   // map of notion page IDs to URL paths (optional)
   // any pages defined here will override their default URL paths
   // example:

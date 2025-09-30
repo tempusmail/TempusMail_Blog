@@ -1,7 +1,7 @@
 import { type NextApiRequest, type NextApiResponse } from 'next'
 
 import type * as types from '../../lib/types'
-import { search } from '../../lib/notion'
+import { handleSearchRequest } from '../../lib/search-api'
 
 export default async function searchNotion(
   req: NextApiRequest,
@@ -12,14 +12,25 @@ export default async function searchNotion(
   }
 
   const searchParams: types.SearchParams = req.body
+  
+  try {
+    const results = await handleSearchRequest(searchParams)
 
-  console.log('<<< lambda search-notion', searchParams)
-  const results = await search(searchParams)
-  console.log('>>> lambda search-notion', results)
-
-  res.setHeader(
-    'Cache-Control',
-    'public, s-maxage=60, max-age=60, stale-while-revalidate=60'
-  )
-  res.status(200).json(results)
+    res.setHeader(
+      'Cache-Control',
+      'public, s-maxage=60, max-age=60, stale-while-revalidate=60'
+    )
+    res.status(200).json(results)
+  } catch (err: any) {
+    if (err.name === 'AuthenticationError') {
+      return res.status(500).json({ 
+        error: err.message
+      })
+    }
+    
+    return res.status(500).json({ 
+      error: 'Search failed', 
+      details: err?.message || 'Unknown error'
+    })
+  }
 }
