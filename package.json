@@ -61,7 +61,6 @@
   "devDependencies": {
     "@fisch0920/config": "^1.1.2",
     "@next/bundle-analyzer": "^15.3.3",
-    "@types/mermaid": "^9.1.0",
     "@types/node": "^22.15.30",
     "@types/prismjs": "^1.26.5",
     "@types/react": "^19.1.6",
