@@ -27,7 +27,6 @@ import { Comments } from './Comments'
 import { Footer } from './Footer'
 import { Loading } from './Loading'
 import { Mermaid } from "./Mermaid"; // the component we wrote earlier
-import { MobileNavigationProvider } from './MobileNavigation'
 import { NotionPageHeader } from './NotionPageHeader'
 import { Page404 } from './Page404'
 import { PageAside } from './PageAside'
@@ -387,47 +386,45 @@ export function NotionPage({
       {isLiteMode && <BodyClassName className='notion-lite' />}
       {isDarkMode && <BodyClassName className='dark-mode' />}
 
-      <MobileNavigationProvider block={block?.type === 'page' ? block as any : undefined}>
-        <NotionRenderer
-          bodyClassName={cs(
-            styles.notion,
-            pageId === site.rootNotionPageId && 'index-page'
-          )}
-          darkMode={isDarkMode}
-          components={components}
-          recordMap={recordMap}
-          rootPageId={site.rootNotionPageId}
-          rootDomain={site.domain}
-          fullPage={!isLiteMode}
-          previewImages={!!recordMap.preview_images}
-          showCollectionViewDropdown={false}
-          showTableOfContents={showTableOfContents}
-          minTableOfContentsItems={minTableOfContentsItems}
-          defaultPageIcon={config.defaultPageIcon}
-          defaultPageCover={config.defaultPageCover}
-          defaultPageCoverPosition={config.defaultPageCoverPosition}
-          mapPageUrl={siteMapPageUrl}
-          mapImageUrl={mapImageUrl}
-          searchNotion={config.isSearchEnabled ? searchNotion : undefined}
-          pageAside={pageAside}
-          footer={footer}
-        />
-
-        {/* GitHub ribbon removed */}
-
-        {/* Comments: show under blog posts if enabled */}
-        {isBlogPost && config.isCommentsEnabled && config.utterancesRepo && (
-          <div className={styles.comments}>
-            <Comments
-              key={isDarkMode ? 'dark' : 'light'}
-              repo={config.utterancesRepo}
-              issueTerm='pathname'
-              label={config.utterancesLabel}
-              theme={isDarkMode ? 'github-dark' : (config.utterancesTheme || 'github-light')}
-            />
-          </div>
+      <NotionRenderer
+        bodyClassName={cs(
+          styles.notion,
+          pageId === site.rootNotionPageId && 'index-page'
         )}
-      </MobileNavigationProvider>
+        darkMode={isDarkMode}
+        components={components}
+        recordMap={recordMap}
+        rootPageId={site.rootNotionPageId}
+        rootDomain={site.domain}
+        fullPage={!isLiteMode}
+        previewImages={!!recordMap.preview_images}
+        showCollectionViewDropdown={false}
+        showTableOfContents={showTableOfContents}
+        minTableOfContentsItems={minTableOfContentsItems}
+        defaultPageIcon={config.defaultPageIcon}
+        defaultPageCover={config.defaultPageCover}
+        defaultPageCoverPosition={config.defaultPageCoverPosition}
+        mapPageUrl={siteMapPageUrl}
+        mapImageUrl={mapImageUrl}
+        searchNotion={config.isSearchEnabled ? searchNotion : undefined}
+        pageAside={pageAside}
+        footer={footer}
+      />
+
+      {/* GitHub ribbon removed */}
+
+      {/* Comments: show under blog posts if enabled */}
+      {isBlogPost && config.isCommentsEnabled && config.utterancesRepo && (
+        <div className={styles.comments}>
+          <Comments
+            key={isDarkMode ? 'dark' : 'light'}
+            repo={config.utterancesRepo}
+            issueTerm='pathname'
+            label={config.utterancesLabel}
+            theme={isDarkMode ? 'github-dark' : (config.utterancesTheme || 'github-light')}
+          />
+        </div>
+      )}
     </>
   )
 }

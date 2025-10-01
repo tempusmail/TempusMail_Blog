@@ -305,11 +305,60 @@
 }
 
 .premiumButton {
-  background: #2b7fff;
+  background: linear-gradient(135deg, #2b7fff 0%, #1d66cc 100%);
   color: #fff !important;
-  padding: 6px 12px;
+  padding: 8px 16px;
   border-radius: 8px;
   font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(43, 127, 255, 0.2);
+}
+
+.premiumButton:hover {
+  background: linear-gradient(135deg, #1d66cc 0%, #1557b3 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 8px rgba(43, 127, 255, 0.3);
+}
+
+.premiumIcon {
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+/* Mobile premium button inherits mobileMenuItem styles but with special coloring */
+.mobileMenuItem[href*="premium"] {
+  background: linear-gradient(135deg, rgba(43, 127, 255, 0.9) 0%, rgba(29, 102, 204, 0.8) 100%);
+  border: 1px solid rgba(43, 127, 255, 0.3);
+  color: #ffffff;
+}
+
+.mobileMenuItem[href*="premium"]:hover {
+  background: linear-gradient(135deg, rgba(43, 127, 255, 1) 0%, rgba(29, 102, 204, 0.9) 100%);
+  border-color: rgba(43, 127, 255, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px -4px rgba(43, 127, 255, 0.4),
+    0 4px 6px -2px rgba(43, 127, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+:global(body.dark-mode) .mobileMenuItem[href*="premium"] {
+  background: linear-gradient(135deg, rgba(43, 127, 255, 0.9) 0%, rgba(29, 102, 204, 0.8) 100%);
+  border: 1px solid rgba(43, 127, 255, 0.4);
+  color: #ffffff;
+}
+
+:global(body.dark-mode) .mobileMenuItem[href*="premium"]:hover {
+  background: linear-gradient(135deg, rgba(43, 127, 255, 1) 0%, rgba(29, 102, 204, 0.9) 100%);
+  box-shadow: 
+    0 8px 25px -4px rgba(43, 127, 255, 0.5),
+    0 4px 6px -2px rgba(43, 127, 255, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
 }
 
 
@@ -345,9 +394,20 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  background: radial-gradient(circle at 80% 20%, rgba(59, 130, 246, 0.15) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.6) 100%);
+  backdrop-filter: blur(12px) saturate(140%) brightness(0.7);
   z-index: 1000;
-  display: none;
+  display: block;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .mobileSidebar {
@@ -356,134 +416,193 @@
   left: 0;
   width: 100%;
   height: 50vh;
-  background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(248, 250, 252, 0.9) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
   z-index: 1001;
   overflow-y: auto;
-  border-bottom: 1px solid #e5e7eb;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  animation: slideDown 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 :global(body.dark-mode) .mobileSidebar {
-  background-color: #1f2937;
-  border-bottom: 1px solid #374151;
+  background: linear-gradient(135deg, rgba(31, 41, 55, 0.95) 0%, rgba(17, 24, 39, 0.9) 100%);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .mobileMenuHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e5e7eb;
-  background-color: #ffffff;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  backdrop-filter: blur(10px);
 }
 
 :global(body.dark-mode) .mobileMenuHeader {
-  border-bottom: 1px solid #374151;
-  background-color: #1f2937;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
 }
 
 .mobileMenuTitle {
-  font-size: 18px;
-  font-weight: 600;
-  color: #374151;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e293b;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 :global(body.dark-mode) .mobileMenuTitle {
-  color: #f3f4f6;
+  color: #f1f5f9;
+  background: linear-gradient(135deg, #f1f5f9 0%, #cbd5e1 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .mobileMenuClose {
-  background: none;
-  border: none;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.1) 0%, rgba(220, 38, 38, 0.05) 100%);
+  border: 1px solid rgba(239, 68, 68, 0.2);
   cursor: pointer;
-  font-size: 24px;
-  color: #374151;
+  font-size: 20px;
+  color: #dc2626;
   padding: 8px;
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
+  border-radius: 8px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 :global(body.dark-mode) .mobileMenuClose {
-  color: #f3f4f6;
+  color: #f87171;
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.15) 0%, rgba(220, 38, 38, 0.1) 100%);
+  border: 1px solid rgba(239, 68, 68, 0.3);
 }
 
 .mobileMenuClose:hover {
-  background-color: rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.2) 0%, rgba(220, 38, 38, 0.1) 100%);
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(239, 68, 68, 0.2);
 }
 
 :global(body.dark-mode) .mobileMenuClose:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.25) 0%, rgba(220, 38, 38, 0.15) 100%);
 }
 
 .mobileMenuContent {
-  padding: 20px;
+  padding: 24px 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  background-color: #ffffff;
-}
-
-:global(body.dark-mode) .mobileMenuContent {
-  background-color: #1f2937;
+  gap: 12px;
+  background: transparent;
 }
 
 .mobileMenuItem {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px 16px;
-  border-radius: 8px;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 12px;
   text-decoration: none;
-  color: #374151;
-  background: none;
-  border: none;
+  color: #1e293b;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.6) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.2s ease;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
   text-align: left;
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  position: relative;
+  overflow: hidden;
+}
+
+.mobileMenuItem::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.5s ease;
+}
+
+.mobileMenuItem:hover::before {
+  left: 100%;
 }
 
 :global(body.dark-mode) .mobileMenuItem {
-  color: #f3f4f6;
+  color: #f1f5f9;
+  background: linear-gradient(135deg, rgba(51, 65, 85, 0.8) 0%, rgba(30, 41, 59, 0.6) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 4px 6px -1px rgba(0, 0, 0, 0.3),
+    0 2px 4px -1px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .mobileMenuItem:hover {
-  background-color: rgba(0, 0, 0, 0.05);
-  color: #374151;
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 25px -4px rgba(0, 0, 0, 0.15),
+    0 4px 6px -2px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border-color: rgba(59, 130, 246, 0.3);
 }
 
 :global(body.dark-mode) .mobileMenuItem:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #f3f4f6;
+  box-shadow: 
+    0 8px 25px -4px rgba(0, 0, 0, 0.4),
+    0 4px 6px -2px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  border-color: rgba(99, 102, 241, 0.4);
 }
 
 .mobileMenuItem svg {
-  font-size: 20px;
+  font-size: 22px;
   flex-shrink: 0;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
-.mobileMenuSearchWrapper {
-  padding: 0 16px;
-  margin-top: 8px;
-  animation: slideDown 0.2s ease-out;
+:global(body.dark-mode) .mobileMenuItem svg {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.mobileMenuSearchWrapper .notion-search {
-  background-color: rgba(0, 0, 0, 0.05);
-  border-radius: 8px;
-  border: 1px solid #e5e7eb;
+.hiddenSearchTrigger {
+  position: absolute;
+  left: -9999px;
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
 }
 
 /* Responsive search behavior (header + mobile) */
@@ -520,20 +639,18 @@
   }
 }
 
-/* Small screens: hide header search (header actions already hidden)
-   and make the menu search full-width and touch-friendly */
-@media only screen and (max-width: 768px) {
-  .tempusHeaderInner .notion-search {
+/* Show mobile menu on tablets and phones */
+@media (max-width: 768px) {
+  .mobileMenuToggle {
+    display: block;
+  }
+
+  .headerActions {
     display: none;
   }
 
-  .mobileMenuSearchWrapper .notion-search {
-    display: block;
-    width: 100%;
-    box-sizing: border-box;
-    padding: 10px 12px;
-    font-size: 14px;
-    border-radius: 8px;
+  .tempusHeaderInner .notion-search {
+    display: none;
   }
 }
 
@@ -560,19 +677,27 @@
 
 @media (max-width: 768px) {
   .premiumButton {
-    padding: 4px;
+    padding: 6px 12px;
     font-size: 13px;
     border-radius: 6px;
     min-height: 32px;
     text-align: center;
   }
+  
+  .premiumIcon {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 420px) {
   .premiumButton {
-    padding: 3px 6px;
+    padding: 4px 8px;
     font-size: 12px;
     min-height: 30px;
     text-align: center;
+  }
+  
+  .premiumIcon {
+    font-size: 12px;
   }
 }

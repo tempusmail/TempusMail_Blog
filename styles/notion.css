@@ -240,6 +240,28 @@
   }
 }
 
+/* Mobile Navigation Styles - ensure header can overflow for dropdown menus */
+.notion-header {
+  overflow: visible !important;
+}
+
+.notion-nav-header {
+  overflow: visible !important;
+}
+
+/* Mobile responsive breakpoints */
+@media (max-width: 768px) {
+  /* Hide desktop nav items on mobile */
+  .notion-header .notion-nav-header-rhs .breadcrumb.button:not(.mobileMenuItem) {
+    display: none;
+  }
+  
+  /* Ensure mobile menu button is visible */
+  .notion-header .mobileMenuToggle {
+    display: block;
+  }
+}
+
 .notion .notion-page-icon-cover {
   margin-left: auto;
   margin-right: auto;
