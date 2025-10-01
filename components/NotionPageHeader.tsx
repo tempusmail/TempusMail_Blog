@@ -1,5 +1,6 @@
 import type * as types from 'notion-types'
 import { IoHome } from '@react-icons/all-files/io5/IoHome'
+import { IoMenu } from '@react-icons/all-files/io5/IoMenu'
 import { IoMoonSharp } from '@react-icons/all-files/io5/IoMoonSharp'
 import { IoSunnyOutline } from '@react-icons/all-files/io5/IoSunnyOutline'
 import cs from 'classnames'
@@ -10,7 +11,9 @@ import { Search, useNotionContext } from 'react-notion-x'
 import { isSearchEnabled } from '@/lib/config'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
+import { useMobileNavigation } from './MobileNavigation'
 import styles from './styles.module.css'
+
 
 function ToggleThemeButton() {
   const [hasMounted, setHasMounted] = React.useState(false)
@@ -40,6 +43,7 @@ export function NotionPageHeader({
   block: types.CollectionViewPageBlock | types.PageBlock
 }) {
   const { components } = useNotionContext()
+  const { toggle } = useMobileNavigation()
 
   // Force custom TempusMail-style navbar regardless of navigationStyle
 
@@ -54,18 +58,27 @@ export function NotionPageHeader({
             </components.Link>
           </div>
 
+          {/* Desktop Navigation */}
           <div className={styles.headerActions}>
             <Link href='/' className={cs('breadcrumb', 'button')} aria-label='Home' style={{ marginRight: '0.5rem' }}>
-            <IoHome />
-          </Link>
+              <IoHome />
+            </Link>
             {isSearchEnabled && <Search block={block} title={null} />}
-
-            
             <ToggleThemeButton />
-
             <components.Link href="https://tempusmail.com/premium" className={styles.premiumButton}>
               Premium
             </components.Link>
+          </div>
+
+          {/* Mobile Hamburger Menu */}
+          <div className={styles.mobileMenuToggle}>
+            <button 
+              className={styles.hamburgerButton}
+              onClick={toggle}
+              aria-label="Open menu"
+            >
+              <IoMenu />
+            </button>
           </div>
         </div>
       </div>

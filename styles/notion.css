@@ -188,8 +188,55 @@
 }
 
 @media only screen and (max-width: 600px) {
+  /* Keep header search visible on mobile and make it compact/icon-only */
   .notion-search-button {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 6px;
+    border-radius: 8px;
+    background: transparent;
+    margin-left: 0.5rem;
+    box-shadow: none;
+    cursor: pointer;
+  }
+
+  /* Hide any text/label inside the button to make it icon-only on small screens */
+  .notion-search-button .search-label,
+  .notion-search-button .notion-search-text,
+  .notion-search-button .label {
     display: none !important;
+  }
+
+  /* Ensure icons/images scale nicely */
+  .notion-search-button svg,
+  .notion-search-button img {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Keep header controls compact so the button doesn't overflow */
+  .notion-nav-header-rhs {
+    gap: 0.25rem;
+  }
+
+  /* Hide duplicate sidebar search controls on mobile so only header button remains */
+  .notion-sidebar .notion-search-button,
+  .notion-sidebar .notion-search-input {
+    display: none !important;
+  }
+
+  /* Ensure search results dropdown overlays correctly on mobile */
+  .notion-search .searchResults {
+    position: absolute;
+    top: calc(var(--notion-header-height, 54px) + 8px);
+    right: 8px;
+    left: auto;
+    width: min(92vw, 360px);
+    max-height: 60vh;
+    z-index: 1100;
   }
 }
 

@@ -313,4 +313,266 @@
 }
 
 
+/* MOBILE RESPONSIVNESS FOR THE HAMBURGER MENU SIDEBAR */
 
+/* Mobile Menu Styles */
+.mobileMenuToggle {
+  display: none;
+}
+
+.hamburgerButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: inherit;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.hamburgerButton:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+:global(body.dark-mode) .hamburgerButton:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mobileMenuOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+  display: none;
+}
+
+.mobileSidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50vh;
+  background-color: #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  z-index: 1001;
+  overflow-y: auto;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+:global(body.dark-mode) .mobileSidebar {
+  background-color: #1f2937;
+  border-bottom: 1px solid #374151;
+}
+
+.mobileMenuHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+  background-color: #ffffff;
+}
+
+:global(body.dark-mode) .mobileMenuHeader {
+  border-bottom: 1px solid #374151;
+  background-color: #1f2937;
+}
+
+.mobileMenuTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: #374151;
+}
+
+:global(body.dark-mode) .mobileMenuTitle {
+  color: #f3f4f6;
+}
+
+.mobileMenuClose {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  color: #374151;
+  padding: 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+:global(body.dark-mode) .mobileMenuClose {
+  color: #f3f4f6;
+}
+
+.mobileMenuClose:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+:global(body.dark-mode) .mobileMenuClose:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.mobileMenuContent {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background-color: #ffffff;
+}
+
+:global(body.dark-mode) .mobileMenuContent {
+  background-color: #1f2937;
+}
+
+.mobileMenuItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  color: #374151;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+  width: 100%;
+  text-align: left;
+}
+
+:global(body.dark-mode) .mobileMenuItem {
+  color: #f3f4f6;
+}
+
+.mobileMenuItem:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: #374151;
+}
+
+:global(body.dark-mode) .mobileMenuItem:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: #f3f4f6;
+}
+
+.mobileMenuItem svg {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.mobileMenuSearchWrapper {
+  padding: 0 16px;
+  margin-top: 8px;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.mobileMenuSearchWrapper .notion-search {
+  background-color: rgba(0, 0, 0, 0.05);
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+
+/* Responsive search behavior (header + mobile) */
+.notion-search {
+  display: inline-flex;
+  align-items: center;
+  width: 360px;
+  max-width: 48vw;
+  min-width: 120px;
+  box-sizing: border-box;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: width 180ms ease, padding 180ms ease, font-size 180ms ease;
+}
+
+/* constrain search inside the header container */
+.tempusHeaderInner .notion-search {
+  width: 360px;
+  max-width: 52%;
+}
+
+/* progressively reduce width on medium/large tablets */
+@media (max-width: 1200px) {
+  .notion-search {
+    width: 320px;
+    max-width: 42vw;
+  }
+}
+
+@media (max-width: 900px) {
+  .tempusHeaderInner .notion-search {
+    width: 280px;
+    max-width: 45%;
+  }
+}
+
+/* Small screens: hide header search (header actions already hidden)
+   and make the menu search full-width and touch-friendly */
+@media only screen and (max-width: 768px) {
+  .tempusHeaderInner .notion-search {
+    display: none;
+  }
+
+  .mobileMenuSearchWrapper .notion-search {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 8px;
+  }
+}
+
+/* Very small phones: ensure full width and readable text */
+@media only screen and (max-width: 420px) {
+  .mobileMenuSearchWrapper .notion-search {
+    padding: 10px;
+    font-size: 13px;
+  }
+
+  .tempusHeaderInner .notion-search {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+/* ensure search inputs don't overflow inside containers */
+.notion-search,
+.mobileMenuSearchWrapper .notion-search {
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 768px) {
+  .premiumButton {
+    padding: 4px;
+    font-size: 13px;
+    border-radius: 6px;
+    min-height: 32px;
+    text-align: center;
+  }
+}
+
+@media (max-width: 420px) {
+  .premiumButton {
+    padding: 3px 6px;
+    font-size: 12px;
+    min-height: 30px;
+    text-align: center;
+  }
+}
