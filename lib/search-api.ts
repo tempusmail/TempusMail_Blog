@@ -6,7 +6,7 @@ export async function handleSearchRequest(
   searchParams: types.SearchParams
 ): Promise<types.SearchResults> {
   try {
-    const results = process.env.NOTION_API_KEY && !process.env.NOTION_TOKEN_V2
+    const results = process.env.NOTION_TOKEN && !process.env.NOTION_TOKEN_V2
       ? await searchWithIntegration(searchParams)
       : await search(searchParams)
 
@@ -16,7 +16,7 @@ export async function handleSearchRequest(
     
     // Check if it's an authentication error
     if (err?.response?.status === 401 || err?.response?.status === 403) {
-      const authError = new Error('Authentication failed. Please check your NOTION_TOKEN_V2 or NOTION_API_KEY environment variable.')
+      const authError = new Error('Authentication failed. Please check your NOTION_TOKEN_V2 or NOTION_TOKEN environment variable.')
       authError.name = 'AuthenticationError'
       throw authError
     }
