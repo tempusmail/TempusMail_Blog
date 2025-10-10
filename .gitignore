@@ -22,6 +22,8 @@
 # ide
 .idea
 
+
+
 # debug
 npm-debug.log*
 yarn-debug.log*
@@ -37,3 +39,4 @@ yarn-error.log*
 
 # vercel
 .vercel
+package-lock.json
