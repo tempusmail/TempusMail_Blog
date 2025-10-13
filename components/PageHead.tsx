@@ -1,8 +1,33 @@
 import Head from 'next/head'
+import { getPageProperty } from 'notion-utils'
 
 import type * as types from '@/lib/types'
 import * as config from '@/lib/config'
 import { getSocialImageUrl } from '@/lib/get-social-image-url'
+
+// Helper function to extract and parse ImageURLs from Notion rich_text property
+function getImageUrls(
+  block: types.Block,
+  recordMap: types.ExtendedRecordMap
+): string[] {
+  try {
+    const imageUrlsText = getPageProperty<string>('ImageURLs', block, recordMap)
+    if (!imageUrlsText) {
+      return []
+    }
+    
+    // Split by comma and clean up each URL
+    const urls = imageUrlsText
+      .split(',')
+      .map(url => url.trim())
+      .filter(url => url && url.startsWith('http'))
+    
+    return urls
+  } catch (err) {
+    console.warn('Error extracting ImageURLs:', err)
+    return []
+  }
+}
 
 export function PageHead({
   site,
@@ -11,13 +36,16 @@ export function PageHead({
   pageId,
   image,
   url,
-  isBlogPost
+  isBlogPost,
+  recordMap,
+  block
 }: types.PageProps & {
   title?: string
   description?: string
   image?: string
   url?: string
   isBlogPost?: boolean
+  block?: types.Block
 }) {
   const rssFeedUrl = `${config.host}/feed`
 
@@ -25,6 +53,12 @@ export function PageHead({
   description = description ?? site?.description
 
   const socialImageUrl = getSocialImageUrl(pageId) || image
+
+  // Extract image URLs from the ImageURLs property
+  const imageUrls = block && recordMap ? getImageUrls(block, recordMap) : []
+  
+  // Create the image array for schema - use ImageURLs if available, otherwise fallback to socialImageUrl
+  const schemaImages = imageUrls.length > 0 ? imageUrls : (socialImageUrl ? [socialImageUrl] : undefined)
 
   return (
     <Head>
@@ -108,17 +142,28 @@ export function PageHead({
           {JSON.stringify({
             '@context': 'https://schema.org',
             '@type': 'BlogPosting',
-            '@id': `${url}#BlogPosting`,
-            mainEntityOfPage: url,
-            url,
+            mainEntityOfPage: {
+              '@type': 'WebPage',
+              '@id': url
+            },
             headline: title,
             name: title,
             description,
+            ...(schemaImages && { image: schemaImages }),
             author: {
               '@type': 'Person',
               name: config.author
             },
-            image: socialImageUrl
+            publisher: {
+              '@type': 'Organization',
+              name: 'TempusMail',
+              logo: {
+                '@type': 'ImageObject',
+                url: 'https://tempusmail.com/TempusMail.svg'
+              }
+            },
+            datePublished: '2025-10-02',
+            dateModified: '2025-10-09'
           })}
         </script>
       )}
