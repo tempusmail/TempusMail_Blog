@@ -186,6 +186,11 @@ const propertyTextValue = (
   { schema, pageHeader }: any,
   defaultFn: () => React.ReactNode
 ) => {
+  // Hide ImageURLs property from being displayed as text
+  if (schema?.name?.toLowerCase() === 'imageurls') {
+    return null
+  }
+
   if (pageHeader && schema?.name?.toLowerCase() === 'author') {
     return <b>{defaultFn()}</b>
   }
@@ -330,6 +335,16 @@ export function NotionPage({
 
   const footer = React.useMemo(() => <Footer />, [])
 
+  // add important objects to the window global for easy debugging
+  React.useEffect(() => {
+    if (!config.isServer) {
+      const g = window as any
+      g.pageId = pageId
+      g.recordMap = recordMap
+      g.block = block
+    }
+  }, [pageId, recordMap, block])
+
   if (router.isFallback) {
     return <Loading />
   }
@@ -347,14 +362,6 @@ export function NotionPage({
     rootNotionPageId: site.rootNotionPageId,
     recordMap
   })
-
-  if (!config.isServer) {
-    // add important objects to the window global for easy debugging
-    const g = window as any
-    g.pageId = pageId
-    g.recordMap = recordMap
-    g.block = block
-  }
 
   const canonicalPageUrl = config.isDev
     ? undefined
