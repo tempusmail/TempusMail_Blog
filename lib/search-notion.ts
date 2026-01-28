@@ -19,13 +19,22 @@ async function searchNotionImpl(
       'content-type': 'application/json'
     }
   })
-    .then((res) => {
+    .then(async (res) => {
       if (res.ok) {
         return res
       }
 
       // convert non-2xx HTTP responses into errors
       const error: any = new Error(res.statusText)
+
+      try {
+        const body: any = await res.json()
+        error.message = body.details || body.error || res.statusText
+        console.error('Search API Error:', JSON.stringify(body, null, 2))
+      } catch {
+        // ignore json parse errors
+      }
+
       error.response = res
       throw error
     })
