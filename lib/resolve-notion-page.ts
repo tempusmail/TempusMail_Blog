@@ -88,6 +88,16 @@ export async function resolveNotionPage(
 
     console.log(site)
     recordMap = await getPage(pageId)
+
+    // Diagnostic logging for collection view issues
+    const collectionKeys = Object.keys(recordMap.collection || {})
+    const collectionViewKeys = Object.keys(recordMap.collection_view || {})
+    const blockKeys = Object.keys(recordMap.block || {})
+    console.log(`[Diagnostic] resolveNotionPage fetched ${pageId}:`, {
+      hasCollection: collectionKeys.length > 0,
+      hasCollectionView: collectionViewKeys.length > 0,
+      blocks: blockKeys.length
+    })
   }
 
   const props: PageProps = { site, recordMap, pageId }

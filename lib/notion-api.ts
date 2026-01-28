@@ -12,3 +12,10 @@ export const notion = new NotionAPI({
   apiBaseUrl,
   authToken
 })
+
+if (authToken) {
+  console.log('NotionAPI initialized with authToken:', `${authToken.slice(0, 4)}...`)
+} else {
+  console.log('NotionAPI initialized WITHOUT authToken')
+}
+console.log('NotionAPI apiBaseUrl:', apiBaseUrl)
