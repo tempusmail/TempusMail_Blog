@@ -23,7 +23,7 @@ import { getCanonicalPageUrl, mapPageUrl } from '@/lib/map-page-url'
 import { searchNotion } from '@/lib/search-notion'
 import { useDarkMode } from '@/lib/use-dark-mode'
 
-// import { Comments } from './Comments'
+import { Comments } from './Comments'
 import { Footer } from './Footer'
 import { Loading } from './Loading'
 import { Mermaid } from "./Mermaid"; // the component we wrote earlier
@@ -31,7 +31,7 @@ import { NotionPageHeader } from './NotionPageHeader'
 import { Page404 } from './Page404'
 import { PageAside } from './PageAside'
 import { PageHead } from './PageHead'
-// import styles from './styles.module.css'
+import styles from './styles.module.css'
 
 // -----------------------------------------------------------------------------
 // dynamic imports for optional components
@@ -402,7 +402,20 @@ export function NotionPage({
   //   [block, recordMap, isBlogPost]
   // )
 
-  const footer = React.useMemo(() => <Footer />, [])
+  const footer = React.useMemo(() => (
+    <>
+      <div className={styles.comments}>
+        {config.isCommentsEnabled && isBlogPost && (
+          <Comments
+            repo={config.utterancesRepo ?? 'transitive-bullshit/nextjs-notion-starter-kit'}
+            issueTerm='pathname'
+            theme={safeDarkMode ? 'github-dark' : 'github-light'}
+          />
+        )}
+      </div>
+      <Footer />
+    </>
+  ), [safeDarkMode, isBlogPost])
 
   // Ensure headings have anchor IDs matching TOC ids for reliable scrolling
   React.useEffect(() => {
@@ -453,66 +466,66 @@ export function NotionPage({
   }, [hasToc, tableOfContents, recordMap, getHeaderHeight])
 
   // Inject Utterances comments into .notion-page container after render
-  React.useEffect(() => {
-    if (!isBlogPost || !hasMounted || config.isServer) return
+  // React.useEffect(() => {
+  //   if (!isBlogPost || !hasMounted || config.isServer) return
 
-    // Find the .notion-page container
-    const notionPage = document.querySelector('.notion-page')
-    if (!notionPage) {
-      // If not found, try again after a short delay (page might still be rendering)
-      const timeout = setTimeout(() => {
-        const retryPage = document.querySelector('.notion-page')
-        if (retryPage) {
-          injectComments(retryPage)
-        }
-      }, 300)
-      return () => clearTimeout(timeout)
-    }
+  //   // Find the .notion-page container
+  //   const notionPage = document.querySelector('.notion-page')
+  //   if (!notionPage) {
+  //     // If not found, try again after a short delay (page might still be rendering)
+  //     const timeout = setTimeout(() => {
+  //       const retryPage = document.querySelector('.notion-page')
+  //       if (retryPage) {
+  //         injectComments(retryPage)
+  //       }
+  //     }, 300)
+  //     return () => clearTimeout(timeout)
+  //   }
 
-    injectComments(notionPage)
+  //   injectComments(notionPage)
 
-    function injectComments(container: Element) {
-      // Check if comments are already injected
-      if (container.querySelector('.utterances-comments-wrapper')) {
-        return
-      }
+  //   function injectComments(container: Element) {
+  //     // Check if comments are already injected
+  //     if (container.querySelector('.utterances-comments-wrapper')) {
+  //       return
+  //     }
 
-      // Create wrapper for comments
-      const commentsWrapper = document.createElement('div')
-      commentsWrapper.className = 'utterances-comments-wrapper'
+  //     // Create wrapper for comments
+  //     const commentsWrapper = document.createElement('div')
+  //     commentsWrapper.className = 'utterances-comments-wrapper'
 
-      // Create container div with proper styling classes
-      const commentsContainer = document.createElement('div')
-      commentsContainer.className = 'comments-container'
-      commentsWrapper.append(commentsContainer)
+  //     // Create container div with proper styling classes
+  //     const commentsContainer = document.createElement('div')
+  //     commentsContainer.className = 'comments-container'
+  //     commentsWrapper.append(commentsContainer)
 
-      // Append to notion-page container
-      container.append(commentsWrapper)
+  //     // Append to notion-page container
+  //     container.append(commentsWrapper)
 
-      // Initialize Utterances
-      const repo = config.utterancesRepo || 'transitive-bullshit/nextjs-notion-starter-kit'
-      const script = document.createElement('script')
-      script.src = 'https://utteranc.es/client.js'
-      script.setAttribute('repo', repo)
-      script.setAttribute('issue-term', 'pathname')
-      script.setAttribute('label', 'comments')
-      script.setAttribute('theme', isDarkMode ? 'github-dark' : 'github-light')
-      script.setAttribute('crossorigin', 'anonymous')
-      script.async = true
-      commentsContainer.append(script)
-    }
+  //     // Initialize Utterances
+  //     const repo = config.utterancesRepo || 'transitive-bullshit/nextjs-notion-starter-kit'
+  //     const script = document.createElement('script')
+  //     script.src = 'https://utteranc.es/client.js'
+  //     script.setAttribute('repo', repo)
+  //     script.setAttribute('issue-term', 'pathname')
+  //     script.setAttribute('label', 'comments')
+  //     script.setAttribute('theme', isDarkMode ? 'github-dark' : 'github-light')
+  //     script.setAttribute('crossorigin', 'anonymous')
+  //     script.async = true
+  //     commentsContainer.append(script)
+  //   }
 
-    // Cleanup function to remove comments if component unmounts or page changes
-    return () => {
-      const notionPage = document.querySelector('.notion-page')
-      if (notionPage) {
-        const wrapper = notionPage.querySelector('.utterances-comments-wrapper')
-        if (wrapper) {
-          wrapper.remove()
-        }
-      }
-    }
-  }, [isBlogPost, hasMounted, isDarkMode])
+  //   // Cleanup function to remove comments if component unmounts or page changes
+  //   return () => {
+  //     const notionPage = document.querySelector('.notion-page')
+  //     if (notionPage) {
+  //       const wrapper = notionPage.querySelector('.utterances-comments-wrapper')
+  //       if (wrapper) {
+  //         wrapper.remove()
+  //       }
+  //     }
+  //   }
+  // }, [isBlogPost, hasMounted, isDarkMode])
 
   // React Hooks must be called before any early returns
   React.useEffect(() => {
