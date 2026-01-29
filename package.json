@@ -42,7 +42,7 @@
     "ky": "^1.8.1",
     "lqip-modern": "^2.2.1",
     "mermaid": "^11.11.0",
-    "next": "^15.3.3",
+    "next": "15.3.8",
     "notion-client": "^7.4.3",
     "notion-types": "^7.4.3",
     "notion-utils": "^7.4.3",
